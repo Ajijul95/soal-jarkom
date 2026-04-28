@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Jaringan Komputer — Teknik Informatika UMRAH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090F;--surface:#0F1521;--border:#1A2540;--border2:#26375E;
+  --text:#EFF3FA;--muted:#7A8FAD;--light:#131E35;
+  --primary:#00C2FF;--primary-bg:rgba(0,194,255,0.10);--primary-dark:#007ACC;
+  --accent:#FF6B35;--accent-bg:rgba(255,107,53,0.12);
+  --success:#00E5A0;--success-bg:rgba(0,229,160,0.12);
+  --danger:#FF4060;--danger-bg:rgba(255,64,96,0.12);
+  --warning:#FFB020;--warning-bg:rgba(255,176,32,0.12);
+  --purple:#A855F7;--purple-bg:rgba(168,85,247,0.12);
+  --teal:#2DD4BF;--teal-bg:rgba(45,212,191,0.12);
+  --radius:18px;--radius-sm:12px;
+  --sans:'Inter',sans-serif;--head:'Syne',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
+.app{max-width:880px;margin:0 auto;padding:28px 18px 100px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;margin-bottom:28px;box-shadow:0 16px 40px rgba(0,0,0,0.35)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 26px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;font-size:15px;font-weight:700;font-family:var(--head);transition:all .2s;-webkit-tap-highlight-color:transparent;letter-spacing:.3px}
+.btn:active{transform:scale(0.97)}
+.btn:hover:not(:disabled){background:var(--light);border-color:#3A527A}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-p{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#001F2E;border:none;box-shadow:0 4px 20px rgba(0,194,255,0.30)}.btn-p:hover:not(:disabled){filter:brightness(1.12)}
+.btn-s{background:var(--success);color:#002B1E;border:none}.btn-s:hover:not(:disabled){filter:brightness(1.1)}
+.btn-a{background:linear-gradient(135deg,#7B2FBE,var(--purple));color:#fff;border:none;box-shadow:0 4px 20px rgba(168,85,247,0.25)}
+.btn-t{background:linear-gradient(135deg,#0D7A6E,var(--teal));color:#001F1D;border:none}
+
+.badge{display:inline-block;font-size:12px;padding:5px 12px;border-radius:6px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;font-family:var(--head)}
+.bb{background:var(--primary-bg);color:var(--primary)}
+.bg{background:var(--success-bg);color:var(--success)}
+.br{background:var(--danger-bg);color:var(--danger)}
+.ba{background:var(--warning-bg);color:var(--warning)}
+.bp{background:var(--purple-bg);color:var(--purple)}
+.bo{background:var(--accent-bg);color:var(--accent)}
+.bt{background:var(--teal-bg);color:var(--teal)}
+
+h1{font-family:var(--head);font-size:34px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
+h2{font-family:var(--head);font-size:21px;font-weight:800;margin:34px 0 14px;color:var(--primary);border-bottom:1px solid var(--border);padding-bottom:10px}
+h3{font-family:var(--head);font-size:17px;font-weight:700;margin:22px 0 10px;color:var(--text)}
+p{font-size:16px;margin-bottom:14px;color:#B8C8DC;line-height:1.8}
+ul,ol{padding-left:24px;margin-bottom:14px;color:#B8C8DC}
+li{margin-bottom:7px;line-height:1.7}
+strong{color:var(--text)}
+em{color:var(--primary);font-style:normal;font-weight:600}
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
+th{background:var(--light);color:var(--primary);font-family:var(--head);font-size:13px;text-transform:uppercase;letter-spacing:.8px;padding:14px 16px;border:1px solid var(--border2);text-align:left}
+td{padding:12px 16px;border:1px solid var(--border);color:#B8C8DC;vertical-align:top}
+tr:hover td{background:rgba(255,255,255,0.02)}
+
+.info-box{background:var(--primary-bg);border-left:4px solid var(--primary);padding:20px 24px;margin:18px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:#9DD8F0;font-size:15.5px;line-height:1.8}
+.warn-box{background:var(--warning-bg);border-left:4px solid var(--warning);padding:20px 24px;margin:18px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:#FFD680;font-size:15.5px;line-height:1.8}
+.success-box{background:var(--success-bg);border-left:4px solid var(--success);padding:20px 24px;margin:18px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:#80F0CC;font-size:15.5px;line-height:1.8}
+.purple-box{background:var(--purple-bg);border-left:4px solid var(--purple);padding:20px 24px;margin:18px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:#D4AAFF;font-size:15.5px;line-height:1.8}
+.teal-box{background:var(--teal-bg);border-left:4px solid var(--teal);padding:20px 24px;margin:18px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:#A7F3ED;font-size:15.5px;line-height:1.8}
+.danger-box{background:var(--danger-bg);border-left:4px solid var(--danger);padding:20px 24px;margin:18px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:#FFAAB8;font-size:15.5px;line-height:1.8}
+.code-box{background:#050810;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:22px;margin:16px 0;font-family:var(--mono);font-size:13.5px;color:#38C8F0;overflow-x:auto;line-height:1.7}
+code{font-family:var(--mono);background:#050810;border:1px solid var(--border);padding:2px 7px;border-radius:5px;font-size:13px;color:#FF8FAF}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0}
+.mini-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;text-align:center}
+.mini-card .icon{font-size:28px;margin-bottom:8px}
+.mini-card .label{font-family:var(--head);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.mini-card .val{font-family:var(--head);font-size:15px;font-weight:800;color:var(--text)}
+
+.row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.spacer{flex:1}
+
+.topic-btn{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:22px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;font-size:15px;font-weight:600;font-family:var(--head);transition:all .2s;line-height:1.5;margin-bottom:12px}
+.topic-btn:hover{background:var(--light);border-color:var(--primary);transform:translateX(4px)}
+.topic-num{background:var(--primary-bg);color:var(--primary);border-radius:8px;padding:6px 12px;font-family:var(--mono);font-size:13px;font-weight:600;flex-shrink:0;margin-top:1px}
+
+.opt{display:block;width:100%;text-align:left;padding:18px 22px;margin:11px 0;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;transition:all .2s;line-height:1.6;font-family:var(--sans)}
+.opt:hover:not(:disabled){background:var(--light);border-color:#3A527A;transform:translateX(3px)}
+.opt.ok{border-color:var(--success);background:var(--success-bg);color:var(--success);font-weight:700}
+.opt.no{border-color:var(--danger);background:var(--danger-bg);color:var(--danger)}
+.explain{background:#050810;border-left:4px solid var(--purple);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:22px 26px;margin-top:24px;font-size:15px;line-height:1.75;color:#C4B5FD}
+
+.progress-bar{height:6px;background:var(--border);border-radius:10px;margin-bottom:26px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary-dark),var(--primary));border-radius:10px;transition:width .4s}
+
+.ri{margin-bottom:26px;border-left:6px solid transparent;border-radius:16px;background:var(--surface);overflow:hidden;display:flex;flex-direction:column}
+.rok{border-left-color:var(--success)!important}
+.rno{border-left-color:var(--danger)!important}
+.rskip{border-left-color:var(--warning)!important}
+.ri-content{padding:28px 32px}
+
+.osi-layer{display:flex;align-items:center;gap:16px;padding:14px 20px;border-radius:10px;margin-bottom:8px;transition:all .2s;cursor:default}
+.osi-layer:hover{filter:brightness(1.1);transform:translateX(4px)}
+.layer-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:16px;flex-shrink:0}
+.layer-info strong{display:block;font-family:var(--head);font-size:15px;margin-bottom:2px}
+.layer-info span{font-size:13.5px;opacity:.75}
+
+.subnet-demo{background:#050810;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:22px;margin:16px 0;font-family:var(--mono);font-size:14px;line-height:2}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeUp .35s ease forwards}
+
+@media(max-width:600px){
+  .app{padding:14px 12px 80px}
+  .grid2{grid-template-columns:1fr;gap:12px}
+  .grid3{grid-template-columns:1fr 1fr;gap:10px}
+  .ri-content{padding:18px 20px!important}
+  h1{font-size:26px}h2{font-size:18px}
+  .card{padding:20px}
+  .opt{padding:15px 16px;font-size:15px}
+  .topic-btn{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="root"></div>
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let mode = 'menu';       // menu | theory | quiz | result | review
+let topicIdx = 0;
+let qIdx = 0;
+let sel = null;
+let ans = false;
+let score = 0;
+let ua = [];
+
+// ============================================================
+// TOPICS (THEORY)
+// ============================================================
+const TOPICS = [
+  {
+    id:'ipaddr', icon:'🌐', badge:'bb', badgeText:'Dasar TCP/IP',
+    title:'IP Address & Notasi',
+    sub:'Pengertian, format, dan cara membaca IP Address',
+    body: () => `
+<h2>📡 IP Address</h2>
+<p>Salah satu aturan utama pada jaringan TCP/IP adalah <em>pengalamatan</em>. Setiap komputer yang terkoneksi ke jaringan harus mempunyai alamat yang unik, disebut <strong>IP Address</strong>.</p>
+<div class="info-box">💡 IP Address bisa diibaratkan seperti <strong>alamat surat</strong>: dipakai sebagai acuan pengiriman paket data, seperti tukang pos yang mengantarkan paket berdasarkan alamat tujuan.</div>
+
+<h2>📝 Notasi Dotted Decimal</h2>
+<p>IP Address ditulis dalam bentuk <em>dotted decimal notation</em>, terdiri dari 4 kelompok angka (oktet) yang dipisahkan titik. Setiap oktet adalah 8 bit (1 byte), sehingga total <strong>32 bit</strong>.</p>
+<div class="subnet-demo">
+<span style="color:#FFB020">10000000</span> . <span style="color:#00E5A0">10001111</span> . <span style="color:#00C2FF">10001001</span> . <span style="color:#A855F7">10010000</span>
+   128      .      143      .      137      .      144
+<span style="color:var(--muted)">──────────────────────────────────────────────────</span>
+   Hasil  →  <span style="color:var(--text);font-weight:700">128.143.137.144</span>
+</div>
+
+<h2>🔢 Bagian IP Address</h2>
+<p>IP Address terdiri dari dua bagian:</p>
+<div class="grid2">
+  <div class="mini-card"><div class="icon">🏢</div><div class="label">Network Identifier</div><div class="val" style="color:var(--primary)">Network Number</div><p style="font-size:13px;margin-top:8px;text-align:left">Menentukan jaringan mana perangkat berada</p></div>
+  <div class="mini-card"><div class="icon">🖥️</div><div class="label">Host Identifier</div><div class="val" style="color:var(--success)">Host Number</div><p style="font-size:13px;margin-top:8px;text-align:left">Menentukan perangkat spesifik dalam jaringan</p></div>
+</div>
+<div class="success-box">📌 <strong>Contoh:</strong> IP <code>192.168.18.57</code> dengan subnet <code>255.255.255.0</code><br>→ Network ID: <strong>192.168.18</strong> (3 oktet pertama)<br>→ Host ID: <strong>57</strong> (oktet terakhir)<br>Konsep ini disebut <em>hierarchical addressing</em></div>
+
+<h2>🎭 Subnet Mask / Netmask</h2>
+<p>Subnet Mask memiliki panjang <strong>32 bit</strong>, sama seperti IP Address. Digunakan untuk membedakan bagian Network ID dan Host ID.</p>
+<ul>
+  <li>Bit <strong style="color:var(--primary)">1</strong> pada subnet mask → bagian <em>Network Identifier</em></li>
+  <li>Bit <strong style="color:var(--success)">0</strong> pada subnet mask → bagian <em>Host Identifier</em></li>
+</ul>
+<div class="subnet-demo">
+<span style="color:var(--muted)">// Contoh: IP 192.168.1.44, Netmask 255.255.255.0</span>
+IP :      11000000.10101000.00000001.<span style="color:var(--success)">00101100</span>
+Mask:     11111111.11111111.11111111.<span style="color:var(--success)">00000000</span>
+          ─────────────────────────────────────
+Network:  11000000.10101000.00000001.<span style="color:var(--success)">00000000</span>
+          = <span style="color:var(--text);font-weight:700">192.168.1.0</span>  (Network Address)
+</div>
+<p>Tiga default subnet mask yang umum dikenal:</p>
+<table>
+  <tr><th>Subnet Mask</th><th>CIDR</th><th>Kelas</th></tr>
+  <tr><td><code>255.0.0.0</code></td><td>/8</td><td>A</td></tr>
+  <tr><td><code>255.255.0.0</code></td><td>/16</td><td>B</td></tr>
+  <tr><td><code>255.255.255.0</code></td><td>/24</td><td>C</td></tr>
+</table>
+`
+  },
+  {
+    id:'class', icon:'📊', badge:'bo', badgeText:'Klasifikasi IP',
+    title:'Kelas IP Address',
+    sub:'Kelas A, B, C, D, E dan IP Publik vs Privat',
+    body: () => `
+<h2>📊 Klasifikasi IP Address v4</h2>
+<p>IPv4 dibagi menjadi 5 kelas berdasarkan oktet pertama dan penggunaannya:</p>
+<table>
+  <tr><th>Kelas</th><th>Range Oktet 1</th><th>Format</th><th>Default Subnet</th><th>Host/Network</th></tr>
+  <tr><td><span class="badge bb">A</span></td><td>1 – 127</td><td>N.H.H.H</td><td>255.0.0.0</td><td>16.777.214 host</td></tr>
+  <tr><td><span class="badge bg">B</span></td><td>128 – 191</td><td>N.N.H.H</td><td>255.255.0.0</td><td>65.534 host</td></tr>
+  <tr><td><span class="badge bo">C</span></td><td>192 – 223</td><td>N.N.N.H</td><td>255.255.255.0</td><td>254 host</td></tr>
+  <tr><td><span class="badge ba">D</span></td><td>224 – 239</td><td>Multicast</td><td>—</td><td>Bukan untuk host</td></tr>
+  <tr><td><span class="badge bp">E</span></td><td>240 – 255</td><td>Research</td><td>—</td><td>Bukan untuk host</td></tr>
+</table>
+<div class="warn-box">⚠️ Semua bit 0 (network address) dan semua bit 1 (broadcast) <strong>tidak bisa digunakan</strong> sebagai IP host. Itulah mengapa jumlah host dikurangi 2 (2^n - 2).</div>
+
+<h2>🔒 IP Publik vs IP Privat</h2>
+<div class="grid2">
+  <div class="mini-card" style="border-color:rgba(0,194,255,0.3)"><div class="icon">🌍</div><div class="label">IP Publik</div><p style="font-size:13.5px;text-align:left;color:#B8C8DC;margin-top:8px">Digunakan di internet. Setiap host yang terkoneksi langsung ke internet membutuhkan IP publik yang <strong>unik secara global</strong>.</p></div>
+  <div class="mini-card" style="border-color:rgba(0,229,160,0.3)"><div class="icon">🏠</div><div class="label">IP Privat</div><p style="font-size:13.5px;text-align:left;color:#B8C8DC;margin-top:8px">Digunakan untuk jaringan internal (LAN). Tidak bisa diakses langsung dari internet. Bisa digunakan ulang di banyak jaringan berbeda.</p></div>
+</div>
+<p>Range IP Privat yang dicadangkan:</p>
+<table>
+  <tr><th>Kelas</th><th>Range IP Privat</th><th>Jumlah Network</th></tr>
+  <tr><td>A</td><td>10.0.0.0</td><td>1 network</td></tr>
+  <tr><td>B</td><td>172.16.0.0 – 172.31.0.0</td><td>16 network</td></tr>
+  <tr><td>C</td><td>192.168.0.0 – 192.168.255.0</td><td>256 network</td></tr>
+</table>
+
+<h2>📢 Broadcast Address</h2>
+<p>Alamat broadcast digunakan untuk mengirim paket ke <strong>semua host</strong> dalam satu jaringan sekaligus.</p>
+<div class="teal-box">📌 Broadcast address adalah <strong>IP terakhir</strong> dalam sebuah jaringan (semua bit host = 1).<br><br>
+Contoh:<br>
+• Kelas C: 192.168.1.0/24 → Broadcast: <strong>192.168.1.255</strong><br>
+• Kelas B: 172.16.0.0/16 → Broadcast: <strong>172.16.255.255</strong><br>
+• Kelas A: 10.0.0.0/8 → Broadcast: <strong>10.255.255.255</strong>
+</div>
+<h2>⚙️ Konfigurasi IP Address</h2>
+<div class="grid2">
+  <div class="mini-card"><div class="icon">🔧</div><div class="label">Static</div><p style="font-size:13px;text-align:left;margin-top:6px;color:#B8C8DC">Admin jaringan mengatur IP secara manual: IP address, subnet mask, dan default gateway.</p></div>
+  <div class="mini-card"><div class="icon">⚡</div><div class="label">Dynamic (DHCP)</div><p style="font-size:13px;text-align:left;margin-top:6px;color:#B8C8DC">IP diberikan otomatis oleh server DHCP. Admin tidak perlu konfigurasi manual per host.</p></div>
+</div>
+`
+  },
+  {
+    id:'subnet', icon:'✂️', badge:'bp', badgeText:'Subnetting',
+    title:'Subnetting & VLSM',
+    sub:'Memecah jaringan besar menjadi subnet-subnet kecil',
+    body: () => `
+<h2>✂️ Apa itu Subnetting?</h2>
+<p>Subnetting (Variable Length Subnet Mask / VLSM) adalah teknik memecah jaringan besar menjadi beberapa jaringan kecil (subnet) dengan memodifikasi subnet mask default.</p>
+<div class="info-box">🎯 <strong>Kenapa Subnetting?</strong><br>
+• Mengurangi traffic — LAN dengan 62 host lebih efisien daripada 254 host dalam satu broadcast domain<br>
+• Keamanan — departemen tertentu bisa diisolasi ke jaringan sendiri<br>
+• Manajemen IP yang lebih efisien
+</div>
+
+<h2>📐 Tabel CIDR</h2>
+<div class="grid2">
+<table>
+  <tr><th>Subnet Mask</th><th>CIDR</th></tr>
+  <tr><td>255.255.255.0</td><td>/24</td></tr>
+  <tr><td>255.255.255.128</td><td>/25</td></tr>
+  <tr><td>255.255.255.192</td><td>/26</td></tr>
+  <tr><td>255.255.255.224</td><td>/27</td></tr>
+  <tr><td>255.255.255.240</td><td>/28</td></tr>
+  <tr><td>255.255.255.248</td><td>/29</td></tr>
+  <tr><td>255.255.255.252</td><td>/30</td></tr>
+</table>
+<table>
+  <tr><th>Subnet Mask</th><th>CIDR</th></tr>
+  <tr><td>255.255.0.0</td><td>/16</td></tr>
+  <tr><td>255.255.128.0</td><td>/17</td></tr>
+  <tr><td>255.255.192.0</td><td>/18</td></tr>
+  <tr><td>255.255.224.0</td><td>/19</td></tr>
+  <tr><td>255.255.240.0</td><td>/20</td></tr>
+  <tr><td>255.255.248.0</td><td>/21</td></tr>
+  <tr><td>255.255.252.0</td><td>/22</td></tr>
+</table>
+</div>
+
+<h2>🔢 Cara Hitung Subnet (Contoh /26)</h2>
+<p>Diberikan: <code>192.168.1.0/26</code> → Netmask: <code>255.255.255.192</code></p>
+<div class="subnet-demo">
+Biner Netmask: 11111111.11111111.11111111.<span style="color:#FFB020">11</span><span style="color:#00E5A0">000000</span>
+                                              <span style="color:#FFB020">↑↑</span>         <span style="color:#00E5A0">↑↑↑↑↑↑</span>
+                                           x=2 bit         y=6 bit
+</div>
+<div class="grid3">
+  <div class="mini-card"><div class="label">Jumlah Subnet</div><div class="val" style="color:var(--warning)">2² = 4</div><p style="font-size:12px;margin-top:6px">2^x, x = bit 1 tambahan</p></div>
+  <div class="mini-card"><div class="label">Host/Subnet</div><div class="val" style="color:var(--success)">62</div><p style="font-size:12px;margin-top:6px">2^6 - 2 = 62</p></div>
+  <div class="mini-card"><div class="label">Blok Subnet</div><div class="val" style="color:var(--primary)">64</div><p style="font-size:12px;margin-top:6px">256 - 192 = 64</p></div>
+</div>
+<table>
+  <tr><th></th><th>Subnet 1</th><th>Subnet 2</th><th>Subnet 3</th><th>Subnet 4</th></tr>
+  <tr><td><strong>Network ID</strong></td><td>192.168.1.0</td><td>192.168.1.64</td><td>192.168.1.128</td><td>192.168.1.192</td></tr>
+  <tr><td><strong>Host Range</strong></td><td>.1 – .62</td><td>.65 – .126</td><td>.129 – .190</td><td>.193 – .254</td></tr>
+  <tr><td><strong>Broadcast</strong></td><td>192.168.1.63</td><td>192.168.1.127</td><td>192.168.1.191</td><td>192.168.1.255</td></tr>
+</table>
+
+<h2>📏 Subnet Berdasarkan Jumlah Host</h2>
+<p>Misal: NetID <code>192.168.30.0/24</code>, ingin max <strong>25 host</strong>/jaringan.</p>
+<div class="subnet-demo">
+1. Ubah kebutuhan host ke biner: 25 → <span style="color:#FFB020">11001</span> → 5 digit
+2. Sisakan 5 bit 0 di subnet mask:
+   11111111.11111111.11111111.<span style="color:#FFB020">111</span><span style="color:#00E5A0">00000</span>
+3. Netmask baru: <span style="color:var(--text);font-weight:700">255.255.255.224</span> (/27)
+4. Host per subnet: 2⁵ - 2 = <span style="color:#00E5A0;font-weight:700">30 host</span>
+</div>
+<div class="success-box">✅ <strong>Jaringan yang terbentuk (/27):</strong><br>
+192.168.30.0/27 → host .1–.30, Broadcast .31<br>
+192.168.30.32/27 → host .33–.62, Broadcast .63<br>
+192.168.30.64/27 → host .65–.94, Broadcast .95<br>
+192.168.30.96/27 → host .97–.126, Broadcast .127<br>
+… dan seterusnya hingga 192.168.30.224/27
+</div>
+`
+  },
+  {
+    id:'topo', icon:'🕸️', badge:'bt', badgeText:'Topologi',
+    title:'Topologi Jaringan',
+    sub:'Bus, Star, Ring, Mesh, dan Hybrid',
+    body: () => `
+<h2>🕸️ Pengertian Topologi</h2>
+<p>Topologi jaringan adalah cara perangkat (node) dalam jaringan terhubung secara fisik maupun logis. Pemilihan topologi memengaruhi <em>efisiensi, biaya, keandalan</em>, dan kemudahan pengelolaan jaringan.</p>
+
+<h2>🚌 Topologi Bus</h2>
+<div class="grid2">
+  <div>
+    <p>Semua perangkat terhubung ke <strong>satu kabel utama (backbone)</strong>. Data yang dikirim menjangkau seluruh jaringan, namun hanya perangkat dengan alamat tujuan yang memprosesnya.</p>
+    <ul><li>✅ Implementasi sederhana, biaya rendah</li><li>✅ Hemat kabel</li><li>❌ Jika backbone rusak → seluruh jaringan down</li><li>❌ Kinerja menurun saat traffic tinggi</li></ul>
+  </div>
+  <div class="mini-card" style="display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:13px;font-family:var(--mono);color:var(--muted);line-height:2.2">
+      [PC]──[PC]──[Server]──[PC]──[PC]<br>
+      ────────────<span style="color:var(--warning)">BACKBONE</span>────────────<br>
+      <span style="color:var(--muted);font-size:11px">Terminator●                    ●Terminator</span>
+    </div>
+  </div>
+</div>
+
+<h2>⭐ Topologi Star</h2>
+<div class="grid2">
+  <div>
+    <p>Semua perangkat terhubung ke <strong>satu titik pusat</strong> (hub atau switch). Data harus melewati perangkat pusat sebelum diteruskan.</p>
+    <ul><li>✅ Kegagalan 1 node tidak memengaruhi lain</li><li>✅ Mudah menambah/hapus perangkat</li><li>✅ Troubleshooting lebih mudah</li><li>❌ Jika pusat rusak → seluruh jaringan down</li><li>❌ Butuh lebih banyak kabel</li></ul>
+  </div>
+  <div class="mini-card" style="display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:13px;font-family:var(--mono);color:var(--muted);line-height:2">
+      <span style="margin-left:30px">[PC]</span><br>
+      <span>   [PC]──<span style="color:var(--primary)">[SWITCH]</span>──[PC]</span><br>
+      <span style="margin-left:30px">[PC]</span>
+    </div>
+  </div>
+</div>
+
+<h2>🔁 Topologi Ring</h2>
+<p>Perangkat terhubung membentuk <strong>lingkaran tertutup</strong>. Data mengalir searah melewati setiap node.</p>
+<div class="grid2">
+  <div class="mini-card"><div class="label">Kelebihan</div><p style="font-size:13.5px;text-align:left;color:#B8C8DC;margin-top:6px">Performa stabil untuk jumlah node terbatas. Bandwidth terjamin karena menggunakan token passing.</p></div>
+  <div class="mini-card"><div class="label">Kelemahan</div><p style="font-size:13.5px;text-align:left;color:#B8C8DC;margin-top:6px">Jika satu node rusak → seluruh jaringan terganggu. Sulit melakukan perubahan konfigurasi.</p></div>
+</div>
+
+<h2>🕸️ Topologi Mesh</h2>
+<p>Setiap perangkat terhubung <strong>langsung dengan semua perangkat lainnya</strong>, menciptakan redundansi jalur maksimal.</p>
+<div class="teal-box">🔗 Jumlah koneksi untuk n node = n(n-1)/2. Contoh: 5 node = 10 koneksi langsung. Sangat andal tapi mahal dan kompleks.</div>
+<div class="grid2">
+  <div class="mini-card"><div class="label">Kelebihan</div><p style="font-size:13.5px;text-align:left;color:#B8C8DC;margin-top:6px">Sangat andal dengan banyak jalur alternatif. Keamanan tinggi. Tidak ada single point of failure.</p></div>
+  <div class="mini-card"><div class="label">Kelemahan</div><p style="font-size:13.5px;text-align:left;color:#B8C8DC;margin-top:6px">Implementasi kompleks dan mahal. Membutuhkan banyak kabel dan port. Manajemen rumit.</p></div>
+</div>
+
+<h2>🔀 Topologi Hybrid</h2>
+<p>Gabungan dari beberapa topologi dasar yang disesuaikan dengan kebutuhan. Mengambil kelebihan dari masing-masing topologi. Kompleks dalam perancangan namun sangat fleksibel.</p>
+<div class="purple-box">💡 <strong>Contoh nyata:</strong> Jaringan kampus — backbone mesh antar gedung + topologi star di dalam tiap gedung + bus untuk lab komputer lama.</div>
+
+<h2>📊 Perbandingan Topologi</h2>
+<table>
+  <tr><th>Topologi</th><th>Biaya</th><th>Keandalan</th><th>Skalabilitas</th><th>Penggunaan</th></tr>
+  <tr><td>Bus</td><td>Rendah</td><td>Rendah</td><td>Terbatas</td><td>Legacy LAN</td></tr>
+  <tr><td>Star</td><td>Sedang</td><td>Sedang</td><td>Tinggi</td><td>LAN modern</td></tr>
+  <tr><td>Ring</td><td>Sedang</td><td>Sedang</td><td>Terbatas</td><td>Token Ring</td></tr>
+  <tr><td>Mesh</td><td>Tinggi</td><td>Sangat Tinggi</td><td>Kompleks</td><td>WAN/Internet</td></tr>
+  <tr><td>Hybrid</td><td>Variatif</td><td>Tinggi</td><td>Sangat Tinggi</td><td>Enterprise</td></tr>
+</table>
+`
+  },
+  {
+    id:'proto', icon:'📡', badge:'ba', badgeText:'Protokol',
+    title:'Protokol Jaringan',
+    sub:'TCP, UDP, HTTP, DNS, DHCP, dan lainnya',
+    body: () => `
+<h2>📡 Apa itu Protokol?</h2>
+<p>Protokol adalah <em>aturan dan standar</em> yang mengatur cara perangkat berkomunikasi dalam jaringan. Tanpa protokol yang terstandarisasi, perangkat dari vendor berbeda tidak bisa saling berkomunikasi.</p>
+<div class="grid3">
+  <div class="mini-card"><div class="icon">🔗</div><div class="label">Komunikasi</div><div class="val" style="font-size:13px;color:var(--primary)">TCP/IP, UDP</div></div>
+  <div class="mini-card"><div class="icon">🔒</div><div class="label">Keamanan</div><div class="val" style="font-size:13px;color:var(--success)">HTTPS, SSL/TLS</div></div>
+  <div class="mini-card"><div class="icon">📱</div><div class="label">Aplikasi</div><div class="val" style="font-size:13px;color:var(--warning)">HTTP, FTP, SMTP</div></div>
+</div>
+
+<h2>🔵 TCP (Transmission Control Protocol)</h2>
+<p>Protokol yang <em>berorientasi koneksi (connection-oriented)</em> dan menjamin pengiriman data secara handal.</p>
+<div class="info-box">🤝 <strong>Three-Way Handshake TCP:</strong><br>
+1. Client → Server: <code>SYN</code> (minta koneksi)<br>
+2. Server → Client: <code>SYN-ACK</code> (setuju)<br>
+3. Client → Server: <code>ACK</code> (konfirmasi, koneksi terbuka)
+</div>
+<p>Karakteristik TCP: Connection-Oriented, Reliable (andal), Flow Control, Error Detection & Correction, Ordered Delivery.</p>
+<p>Digunakan untuk: <strong>HTTP/HTTPS</strong> (web), <strong>FTP</strong> (transfer file), <strong>SMTP/IMAP/POP3</strong> (email), <strong>MySQL</strong> (database).</p>
+
+<h2>🟡 UDP (User Datagram Protocol)</h2>
+<p>Protokol yang <em>connectionless</em> dan memprioritaskan <strong>kecepatan</strong> daripada keandalan.</p>
+<div class="warn-box">⚡ UDP tidak melakukan handshake, tidak menjamin urutan paket, dan tidak mengirim ulang paket yang hilang. Ini membuatnya jauh lebih cepat dari TCP.</div>
+<p>Digunakan untuk: <strong>Video Streaming</strong> (YouTube, Netflix), <strong>VoIP</strong> (WhatsApp Call, Zoom), <strong>Online Gaming</strong>, <strong>DNS</strong>.</p>
+
+<h2>⚖️ TCP vs UDP</h2>
+<table>
+  <tr><th>Aspek</th><th>TCP</th><th>UDP</th></tr>
+  <tr><td>Koneksi</td><td>Connection-oriented</td><td>Connectionless</td></tr>
+  <tr><td>Keandalan</td><td>✅ Terjamin</td><td>❌ Tidak dijamin</td></tr>
+  <tr><td>Urutan Data</td><td>✅ Berurutan</td><td>❌ Tidak dijamin</td></tr>
+  <tr><td>Kecepatan</td><td>Lebih lambat</td><td>⚡ Lebih cepat</td></tr>
+  <tr><td>Contoh</td><td>HTTP, FTP, Email</td><td>Streaming, VoIP, DNS</td></tr>
+</table>
+
+<h2>🌐 Protokol Penting Lainnya</h2>
+<div class="grid2">
+  <div class="mini-card" style="text-align:left"><strong style="color:var(--primary);display:block;margin-bottom:8px">DNS</strong><p style="font-size:13.5px;color:#B8C8DC;margin:0">Menerjemahkan nama domain (google.com) → alamat IP numerik. Menggunakan UDP port 53.</p></div>
+  <div class="mini-card" style="text-align:left"><strong style="color:var(--success);display:block;margin-bottom:8px">DHCP</strong><p style="font-size:13.5px;color:#B8C8DC;margin:0">Memberikan IP address otomatis ke perangkat saat bergabung ke jaringan. Mencegah konflik IP.</p></div>
+  <div class="mini-card" style="text-align:left"><strong style="color:var(--warning);display:block;margin-bottom:8px">HTTP/HTTPS</strong><p style="font-size:13.5px;color:#B8C8DC;margin:0">Mengatur pertukaran data antara browser dan web server. HTTPS = HTTP + enkripsi SSL/TLS.</p></div>
+  <div class="mini-card" style="text-align:left"><strong style="color:var(--accent);display:block;margin-bottom:8px">FTP</strong><p style="font-size:13.5px;color:#B8C8DC;margin:0">Transfer file antara client dan server. Menggunakan port 21 (kontrol) dan 20 (data).</p></div>
+  <div class="mini-card" style="text-align:left"><strong style="color:var(--purple);display:block;margin-bottom:8px">SMTP</strong><p style="font-size:13.5px;color:#B8C8DC;margin:0">Mengirim email antar server. Port 25/587. Berbeda dengan IMAP/POP3 yang untuk menerima email.</p></div>
+  <div class="mini-card" style="text-align:left"><strong style="color:var(--teal);display:block;margin-bottom:8px">ICMP</strong><p style="font-size:13.5px;color:#B8C8DC;margin:0">Digunakan untuk diagnostik jaringan. Contoh: perintah <code>ping</code> menggunakan ICMP echo request/reply.</p></div>
+</div>
+`
+  },
+  {
+    id:'osi', icon:'🏗️', badge:'bg', badgeText:'Model OSI',
+    title:'Model OSI & TCP/IP',
+    sub:'7 layer OSI, 4 layer TCP/IP, dan perbandingannya',
+    body: () => `
+<h2>🏗️ Model Referensi OSI</h2>
+<p>Model OSI (Open Systems Interconnection) dikembangkan oleh <strong>ISO</strong> sebagai kerangka konseptual untuk memahami cara kerja jaringan. Terdiri dari <em>7 lapisan (layer)</em>.</p>
+<div class="warn-box">📚 Model OSI bersifat <strong>teoritis/konseptual</strong>. Tidak diimplementasikan secara penuh, tapi sangat berguna sebagai alat pembelajaran dan troubleshooting jaringan.</div>
+
+<h3>7 Layer OSI (dari bawah ke atas)</h3>
+${[
+  {n:1,name:'Physical Layer',color:'#FF4060',bg:'rgba(255,64,96,0.15)',desc:'Spesifikasi fisik: kabel, konektor, sinyal listrik/optik. Transmisi bit mentah.'},
+  {n:2,name:'Data Link Layer',color:'#FF6B35',bg:'rgba(255,107,53,0.15)',desc:'Kontrol transfer data antar node dalam satu LAN. Alamat MAC, Switch, Ethernet.'},
+  {n:3,name:'Network Layer',color:'#FFB020',bg:'rgba(255,176,32,0.15)',desc:'Routing dan pengalamatan antar jaringan. IP Address, Router, OSPF, RIP.'},
+  {n:4,name:'Transport Layer',color:'#00E5A0',bg:'rgba(0,229,160,0.15)',desc:'Kontrol pengiriman end-to-end. TCP, UDP, Port number, flow control.'},
+  {n:5,name:'Session Layer',color:'#00C2FF',bg:'rgba(0,194,255,0.15)',desc:'Mengelola sesi komunikasi antar aplikasi. RPC, PPTP, NetBIOS.'},
+  {n:6,name:'Presentation Layer',color:'#A855F7',bg:'rgba(168,85,247,0.15)',desc:'Konversi format data, enkripsi/dekripsi, kompresi. SSL/TLS, JPEG, ASCII.'},
+  {n:7,name:'Application Layer',color:'#2DD4BF',bg:'rgba(45,212,191,0.15)',desc:'Antarmuka langsung dengan pengguna. HTTP/HTTPS, FTP, SMTP, DNS, DHCP.'},
+].reverse().map(l=>`
+<div class="osi-layer" style="background:${l.bg};border:1px solid ${l.color}30">
+  <div class="layer-num" style="background:${l.color};color:#000">${l.n}</div>
+  <div class="layer-info"><strong style="color:${l.color}">${l.name}</strong><span>${l.desc}</span></div>
+</div>`).join('')}
+
+<h2>🔷 Model TCP/IP (4 Layer)</h2>
+<p>Model TCP/IP adalah kerangka yang <strong>benar-benar diimplementasikan</strong> dan menjadi dasar internet modern. Lebih pragmatis dari OSI.</p>
+${[
+  {n:4,name:'Application Layer',color:'#2DD4BF',bg:'rgba(45,212,191,0.15)',desc:'Menggabungkan Application + Presentation + Session layer OSI. HTTP, FTP, SMTP, DNS.'},
+  {n:3,name:'Transport Layer',color:'#00E5A0',bg:'rgba(0,229,160,0.15)',desc:'Sama dengan Transport Layer OSI. TCP dan UDP.'},
+  {n:2,name:'Internet Layer',color:'#FFB020',bg:'rgba(255,176,32,0.15)',desc:'Setara Network Layer OSI. IP address, routing, ICMP.'},
+  {n:1,name:'Network Access Layer',color:'#FF6B35',bg:'rgba(255,107,53,0.15)',desc:'Menggabungkan Data Link + Physical OSI. Ethernet, ARP, hardware.'},
+].reverse().map(l=>`
+<div class="osi-layer" style="background:${l.bg};border:1px solid ${l.color}30">
+  <div class="layer-num" style="background:${l.color};color:#000">${l.n}</div>
+  <div class="layer-info"><strong style="color:${l.color}">${l.name}</strong><span>${l.desc}</span></div>
+</div>`).join('')}
+
+<h2>⚖️ Perbandingan OSI vs TCP/IP</h2>
+<table>
+  <tr><th>Aspek</th><th>Model OSI</th><th>Model TCP/IP</th></tr>
+  <tr><td>Jumlah Layer</td><td>7 lapisan</td><td>4 lapisan</td></tr>
+  <tr><td>Sifat</td><td>Teoritis/Konseptual</td><td>Praktis/Implementasi</td></tr>
+  <tr><td>Kompleksitas</td><td>Lebih kompleks</td><td>Lebih sederhana</td></tr>
+  <tr><td>Penggunaan</td><td>Referensi & troubleshooting</td><td>Dasar internet modern</td></tr>
+  <tr><td>Dikembangkan oleh</td><td>ISO</td><td>DARPA/DoD</td></tr>
+</table>
+
+<h2>🖧 Switch Layer 2 vs Layer 3</h2>
+<div class="grid2">
+  <div class="mini-card" style="text-align:left;border-color:rgba(0,194,255,0.3)">
+    <strong style="color:var(--primary);display:block;margin-bottom:8px">Switch Layer 2</strong>
+    <p style="font-size:13.5px;color:#B8C8DC;margin:0">Bekerja di Data Link Layer. Menggunakan alamat <strong>MAC</strong>. Cocok untuk jaringan kecil-menengah (SOHO, lab). Biaya lebih rendah.</p>
+  </div>
+  <div class="mini-card" style="text-align:left;border-color:rgba(168,85,247,0.3)">
+    <strong style="color:var(--purple);display:block;margin-bottom:8px">Switch Layer 3</strong>
+    <p style="font-size:13.5px;color:#B8C8DC;margin:0">Bekerja di Network Layer. Menggunakan alamat <strong>IP</strong>. Bisa routing antar VLAN. Cocok untuk jaringan enterprise. Lebih mahal.</p>
+  </div>
+</div>
+`
+  },
+];
+
+// ============================================================
+// QUESTIONS (50 soal)
+// ============================================================
+const QS = [
+  // --- IP ADDRESS ---
+  {q:'Berapa panjang bit dari sebuah IPv4 address?',opts:['16 bit','32 bit','64 bit','128 bit'],ans:1,exp:'IPv4 terdiri dari 32 bit yang dibagi menjadi 4 oktet (masing-masing 8 bit). Ditulis dalam format dotted decimal seperti 192.168.1.1.'},
+  {q:'Dalam notasi dotted decimal, setiap oktet mewakili berapa bit?',opts:['4 bit','8 bit','16 bit','32 bit'],ans:1,exp:'Setiap oktet dalam IPv4 mewakili 8 bit (1 byte). Total 4 oktet × 8 bit = 32 bit.'},
+  {q:'Manakah yang merupakan bagian dari sebuah IP Address?',opts:['Network ID dan Host ID','MAC Address dan Port Number','Domain Name dan IP Address','Username dan Password'],ans:0,exp:'IP Address terdiri dari dua bagian: Network Identifier (Network ID) yang menunjukkan jaringan, dan Host Identifier (Host ID) yang menunjukkan perangkat dalam jaringan tersebut.'},
+  {q:'Pada IP Address 192.168.18.57 dengan subnet mask 255.255.255.0, manakah bagian Network ID-nya?',opts:['192','192.168','192.168.18','192.168.18.57'],ans:2,exp:'Dengan subnet mask 255.255.255.0 (/24), tiga oktet pertama adalah Network ID yaitu 192.168.18, dan oktet terakhir (57) adalah Host ID.'},
+  {q:'Berapa nilai maksimum dari satu oktet dalam IP Address?',opts:['127','255','256','512'],ans:1,exp:'Satu oktet terdiri dari 8 bit. Nilai maksimum 8 bit = 2^8 - 1 = 255. Jadi range satu oktet adalah 0 sampai 255.'},
+  {q:'Apakah fungsi dari Subnet Mask?',opts:['Mengamankan jaringan dari hacker','Membedakan bagian Network ID dan Host ID dalam IP Address','Menentukan kecepatan jaringan','Mengkonversi IP ke nama domain'],ans:1,exp:'Subnet Mask digunakan untuk membedakan mana bagian Network Identifier dan mana Host Identifier dalam sebuah IP Address. Bit bernilai 1 menunjukkan Network ID, bit bernilai 0 menunjukkan Host ID.'},
+  {q:'Berapakah panjang bit dari subnet mask?',opts:['8 bit','16 bit','24 bit','32 bit'],ans:3,exp:'Subnet Mask memiliki panjang yang sama dengan IP Address yaitu 32 bit.'},
+  {q:'Konsep pengalamatan IP yang membagi alamat menjadi Network ID dan Host ID dikenal sebagai?',opts:['Flat addressing','Hierarchical addressing','Dynamic addressing','Static addressing'],ans:1,exp:'Pembagian IP Address menjadi Network Identifier dan Host Identifier disebut hierarchical addressing (pengalamatan hierarkis).'},
+  {q:'Protokol apa yang digunakan untuk memberikan IP address secara otomatis kepada perangkat?',opts:['DNS','FTP','DHCP','SMTP'],ans:2,exp:'DHCP (Dynamic Host Configuration Protocol) adalah protokol yang memberikan IP address secara otomatis kepada perangkat yang bergabung ke jaringan, sehingga administrator tidak perlu konfigurasi manual.'},
+  {q:'Apa perbedaan utama antara konfigurasi IP statik dan dinamik?',opts:['Statik lebih cepat, dinamik lebih lambat','Statik dikonfigurasi manual oleh admin, dinamik otomatis via DHCP','Statik untuk LAN, dinamik untuk internet','Statik untuk server, dinamik untuk client'],ans:1,exp:'Konfigurasi IP statik dilakukan secara manual oleh network administrator, sedangkan dinamik menggunakan protokol DHCP yang secara otomatis memberikan IP dari database server.'},
+  // --- KELAS IP ---
+  {q:'IP Address kelas A memiliki range oktet pertama?',opts:['1 – 127','128 – 191','192 – 223','224 – 239'],ans:0,exp:'Kelas A memiliki range oktet pertama dari 1 sampai 127. Bit pertama selalu 0 (00000001 sampai 01111111).'},
+  {q:'Berapa jumlah host maksimum yang dapat ditampung dalam satu jaringan kelas C?',opts:['254','256','512','65.534'],ans:0,exp:'Kelas C memiliki 8 bit Host ID, sehingga 2^8 - 2 = 254 host (dikurangi 2 untuk network address dan broadcast address).'},
+  {q:'Default subnet mask untuk kelas B adalah?',opts:['255.0.0.0','255.255.0.0','255.255.255.0','255.255.255.128'],ans:1,exp:'Kelas B menggunakan 2 oktet untuk Network ID dan 2 oktet untuk Host ID, sehingga default subnet mask-nya adalah 255.255.0.0 (/16).'},
+  {q:'IP Address kelas D digunakan untuk?',opts:['Pengalamatan host biasa','Multicast','Research','Broadcast'],ans:1,exp:'Kelas D (224–239) digunakan untuk multicast, yaitu pengiriman data ke sekelompok host sekaligus. Tidak digunakan untuk pengalamatan host biasa.'},
+  {q:'Manakah yang termasuk IP Address privat kelas A?',opts:['192.168.1.1','172.16.5.1','10.0.0.1','169.254.1.1'],ans:2,exp:'IP privat kelas A adalah 10.0.0.0/8. Jadi 10.0.0.1 adalah IP privat kelas A. 192.168.x.x adalah kelas C privat, dan 172.16-31.x.x adalah kelas B privat.'},
+  {q:'Berapa jumlah bit Host ID pada kelas A?',opts:['8 bit','16 bit','24 bit','32 bit'],ans:2,exp:'Kelas A menggunakan 8 bit untuk Network ID dan 24 bit untuk Host ID, sehingga bisa menampung hingga 2^24 - 2 = 16.777.214 host per network.'},
+  {q:'IP Address 172.20.5.10 termasuk kelas?',opts:['A','B','C','D'],ans:1,exp:'Oktet pertama 172 berada dalam range 128–191, sehingga termasuk IP Address kelas B.'},
+  {q:'Apa yang dimaksud dengan Broadcast Address?',opts:['IP pertama dalam jaringan','IP terakhir dalam jaringan yang digunakan untuk mengirim ke semua host','IP yang digunakan router','IP yang digunakan server DNS'],ans:1,exp:'Broadcast address adalah alamat IP terakhir dalam sebuah jaringan (semua bit host = 1), digunakan untuk mengirimkan paket ke semua host dalam jaringan tersebut sekaligus.'},
+  {q:'Broadcast address untuk jaringan 192.168.1.0/24 adalah?',opts:['192.168.1.0','192.168.1.1','192.168.1.254','192.168.1.255'],ans:3,exp:'Untuk jaringan 192.168.1.0 dengan subnet /24 (255.255.255.0), broadcast address adalah IP terakhir yaitu 192.168.1.255 (semua bit host bernilai 1: 11111111 = 255).'},
+  {q:'IP privat kelas B mencakup range?',opts:['10.0.0.0 – 10.255.255.255','172.16.0.0 – 172.31.255.255','192.168.0.0 – 192.168.255.255','169.254.0.0 – 169.254.255.255'],ans:1,exp:'IP privat kelas B mencakup range 172.16.0.0 sampai 172.31.255.255 (16 network), dengan subnet mask default 255.255.0.0.'},
+  // --- SUBNETTING ---
+  {q:'Apa kepanjangan dari VLSM?',opts:['Virtual LAN Subnet Mask','Variable Length Subnet Mask','Virtual Local Subnet Module','Variable LAN Switch Module'],ans:1,exp:'VLSM adalah singkatan dari Variable Length Subnet Mask, yaitu teknik subnetting yang memungkinkan penggunaan subnet mask dengan panjang berbeda dalam satu jaringan untuk efisiensi penggunaan IP.'},
+  {q:'Berapa jumlah subnet yang terbentuk dari IP 192.168.1.0/26?',opts:['2','4','8','16'],ans:1,exp:'/26 artinya 2 bit tambahan dari /24. Jumlah subnet = 2^2 = 4 subnet.'},
+  {q:'Berapa jumlah host yang dapat digunakan per subnet dari IP 192.168.1.0/26?',opts:['30','62','126','254'],ans:1,exp:'/26 menyisakan 6 bit untuk host. Jumlah host = 2^6 - 2 = 62 host (dikurangi network ID dan broadcast).'},
+  {q:'Berapa nilai blok subnet dari 192.168.1.0/26?',opts:['32','64','128','192'],ans:1,exp:'Blok subnet dihitung dengan 256 - nilai oktet terakhir subnet mask. Subnet mask /26 = 255.255.255.192, maka 256 - 192 = 64. Blok subnet berupa kelipatan 64: 0, 64, 128, 192.'},
+  {q:'Network Address dari subnet ke-2 pada 192.168.1.0/26 adalah?',opts:['192.168.1.0','192.168.1.64','192.168.1.128','192.168.1.192'],ans:1,exp:'Blok subnet /26 adalah 64. Subnet ke-1: .0, Subnet ke-2: .64, Subnet ke-3: .128, Subnet ke-4: .192. Jadi network address subnet ke-2 adalah 192.168.1.64.'},
+  {q:'Apa manfaat utama dari subnetting?',opts:['Meningkatkan kecepatan internet','Mengurangi traffic dan meningkatkan efisiensi jaringan','Menghilangkan kebutuhan router','Membuat jaringan lebih lambat'],ans:1,exp:'Subnetting memecah jaringan besar menjadi subnet-subnet kecil, sehingga mengurangi broadcast domain, mengurangi traffic, meningkatkan keamanan, dan membuat manajemen IP lebih efisien.'},
+  {q:'Untuk membuat 16 subnet dari 192.168.30.0/24, subnet mask baru yang digunakan adalah?',opts:['255.255.255.128','255.255.255.192','255.255.255.224','255.255.255.240'],ans:3,exp:'Untuk 16 subnet, butuh 2^x ≥ 16, maka x=4 bit. Subnet mask baru: 11111111.11111111.11111111.11110000 = 255.255.255.240 (/28). Host per subnet: 2^4 - 2 = 14 host.'},
+  {q:'Berapa host yang tersedia per subnet pada subnet mask 255.255.255.224 (/27)?',opts:['14','30','62','126'],ans:1,exp:'/27 menyisakan 5 bit untuk host. Jumlah host = 2^5 - 2 = 32 - 2 = 30 host per subnet.'},
+  {q:'Broadcast address untuk subnet 192.168.30.64/27 adalah?',opts:['192.168.30.63','192.168.30.95','192.168.30.96','192.168.30.127'],ans:1,exp:'/27 memiliki blok subnet 32. Subnet .64/27 mencakup .64 sampai .95. Jadi broadcast address-nya adalah 192.168.30.95.'},
+  {q:'Proses subnetting dilakukan dengan cara?',opts:['Menambah bit pada Network ID','Meminjam bit dari Host ID untuk menjadi Subnet ID','Menghapus bit dari Network ID','Mengubah kelas IP Address'],ans:1,exp:'Subnetting dilakukan dengan meminjam sebagian bit dari Host ID untuk digunakan sebagai Subnet ID. Hal ini mengurangi jumlah host per subnet, namun menambah jumlah subnet yang tersedia.'},
+  // --- TOPOLOGI ---
+  {q:'Pada topologi Bus, jika kabel backbone rusak, apa yang terjadi?',opts:['Hanya perangkat yang berdekatan yang terdampak','Seluruh jaringan akan terputus','Tidak ada dampak','Hanya server yang terdampak'],ans:1,exp:'Pada topologi Bus, semua perangkat terhubung ke satu kabel backbone. Jika backbone rusak, seluruh jaringan akan terputus karena tidak ada jalur alternatif.'},
+  {q:'Topologi yang menggunakan perangkat pusat (hub/switch) sebagai titik koneksi semua perangkat adalah?',opts:['Bus','Ring','Star','Mesh'],ans:2,exp:'Topologi Star menggunakan perangkat pusat (hub atau switch) sebagai titik koneksi. Semua perangkat terhubung langsung ke pusat ini.'},
+  {q:'Kelebihan utama topologi Star dibanding topologi Bus adalah?',opts:['Lebih hemat kabel','Kegagalan satu perangkat tidak memengaruhi perangkat lain','Tidak membutuhkan perangkat pusat','Lebih murah'],ans:1,exp:'Kelebihan utama topologi Star adalah fault isolation yang baik — jika satu perangkat atau kabelnya rusak, hanya perangkat itu yang terdampak, tidak mempengaruhi perangkat lain.'},
+  {q:'Pada topologi Ring, bagaimana aliran data?',opts:['Dua arah secara bersamaan','Satu arah (unidirectional)','Acak tergantung tujuan','Langsung dari pengirim ke penerima'],ans:1,exp:'Pada topologi Ring standar, data mengalir satu arah (unidirectional) membentuk lingkaran melewati setiap node sampai mencapai tujuan.'},
+  {q:'Topologi yang paling andal karena setiap perangkat terhubung langsung ke semua perangkat lain adalah?',opts:['Bus','Star','Ring','Mesh'],ans:3,exp:'Topologi Mesh adalah yang paling andal karena setiap perangkat terhubung langsung dengan semua perangkat lainnya, menciptakan banyak jalur alternatif (redundansi) sehingga tidak ada single point of failure.'},
+  {q:'Rumus jumlah koneksi dalam topologi Mesh full untuk n perangkat adalah?',opts:['n-1','n×2','n(n-1)/2','n²'],ans:2,exp:'Dalam full mesh topology, jumlah koneksi = n(n-1)/2. Contoh: 5 perangkat = 5×4/2 = 10 koneksi. Inilah yang membuat mesh mahal dan kompleks.'},
+  {q:'Topologi Hybrid adalah?',opts:['Topologi yang hanya menggunakan kabel fiber optik','Gabungan dari beberapa jenis topologi dasar','Topologi yang digunakan untuk jaringan nirkabel','Topologi yang hanya ada di jaringan internet'],ans:1,exp:'Topologi Hybrid adalah gabungan dari dua atau lebih topologi dasar (seperti Star + Bus, atau Star + Ring). Digunakan untuk memanfaatkan kelebihan masing-masing topologi.'},
+  {q:'Topologi mana yang paling umum digunakan pada jaringan LAN modern?',opts:['Bus','Ring','Star','Mesh'],ans:2,exp:'Topologi Star adalah yang paling umum digunakan pada LAN modern karena mudah dikonfigurasi, mudah troubleshooting, dan kegagalan satu node tidak mempengaruhi node lain.'},
+  // --- PROTOKOL ---
+  {q:'TCP kepanjangan dari?',opts:['Transfer Control Protocol','Transmission Control Protocol','Terminal Connection Protocol','Trusted Communication Protocol'],ans:1,exp:'TCP adalah Transmission Control Protocol, salah satu protokol inti dalam suite TCP/IP yang menjamin pengiriman data secara handal dan berurutan.'},
+  {q:'Apa yang dimaksud dengan "connection-oriented" pada TCP?',opts:['Koneksi hanya untuk satu arah','Diperlukan pembentukan koneksi (handshake) sebelum data dikirim','Data dikirim tanpa konfirmasi','Koneksi permanen sepanjang waktu'],ans:1,exp:'Connection-oriented berarti TCP memerlukan proses pembentukan koneksi (three-way handshake: SYN, SYN-ACK, ACK) sebelum data dapat dikirimkan.'},
+  {q:'Protokol mana yang lebih cocok digunakan untuk video streaming real-time?',opts:['TCP','UDP','FTP','SMTP'],ans:1,exp:'UDP lebih cocok untuk video streaming karena mengutamakan kecepatan daripada keandalan. Hilangnya beberapa paket tidak terlalu berpengaruh pada pengalaman menonton, tapi latensi yang rendah sangat penting.'},
+  {q:'DNS menggunakan protokol transport layer mana dan port berapa?',opts:['TCP port 80','UDP port 53','TCP port 25','UDP port 67'],ans:1,exp:'DNS umumnya menggunakan UDP port 53 untuk query biasa karena membutuhkan kecepatan tinggi. Untuk transfer zone (AXFR), DNS menggunakan TCP port 53.'},
+  {q:'Protokol SMTP digunakan untuk?',opts:['Menerima email dari server','Mengirim email antar server','Transfer file','Resolusi nama domain'],ans:1,exp:'SMTP (Simple Mail Transfer Protocol) digunakan untuk mengirim email dari client ke server dan antar server email. Port yang digunakan adalah 25 atau 587.'},
+  {q:'Perbedaan utama HTTP dan HTTPS adalah?',opts:['HTTPS lebih cepat dari HTTP','HTTPS menggunakan enkripsi SSL/TLS, HTTP tidak','HTTP menggunakan port 443, HTTPS port 80','HTTPS hanya untuk file download'],ans:1,exp:'HTTPS (HTTP Secure) menggunakan enkripsi SSL/TLS untuk mengamankan komunikasi antara browser dan server web, sehingga data tidak bisa dibaca pihak ketiga. HTTP tidak memiliki enkripsi.'},
+  // --- OSI & TCP/IP ---
+  {q:'Model OSI terdiri dari berapa layer?',opts:['4 layer','5 layer','7 layer','12 layer'],ans:2,exp:'Model OSI (Open Systems Interconnection) terdiri dari 7 layer: Physical, Data Link, Network, Transport, Session, Presentation, dan Application.'},
+  {q:'Layer berapa pada OSI yang bertanggung jawab atas routing antar jaringan?',opts:['Layer 1 (Physical)','Layer 2 (Data Link)','Layer 3 (Network)','Layer 4 (Transport)'],ans:2,exp:'Layer 3 (Network Layer) bertanggung jawab atas routing dan pengalamatan IP untuk mengirimkan paket data antar jaringan yang berbeda. Router beroperasi di layer ini.'},
+  {q:'TCP dan UDP bekerja di layer OSI mana?',opts:['Layer 2 (Data Link)','Layer 3 (Network)','Layer 4 (Transport)','Layer 7 (Application)'],ans:2,exp:'TCP dan UDP bekerja di Layer 4 (Transport Layer) pada model OSI. Layer ini mengontrol pengiriman data end-to-end dan menggunakan nomor port untuk mengidentifikasi aplikasi.'},
+  {q:'Model TCP/IP memiliki berapa layer?',opts:['3 layer','4 layer','5 layer','7 layer'],ans:1,exp:'Model TCP/IP terdiri dari 4 layer: Network Access, Internet, Transport, dan Application Layer.'},
+  {q:'Layer "Application" pada model TCP/IP menggabungkan layer apa saja dari model OSI?',opts:['Physical + Data Link','Network + Transport','Application + Presentation + Session','Transport + Network + Data Link'],ans:2,exp:'Application Layer pada TCP/IP menggabungkan tiga layer teratas OSI: Application Layer (Layer 7), Presentation Layer (Layer 6), dan Session Layer (Layer 5).'},
+  {q:'Switch Layer 2 menggunakan alamat apa untuk meneruskan frame data?',opts:['IP Address','MAC Address','Port Number','Domain Name'],ans:1,exp:'Switch Layer 2 beroperasi di Data Link Layer dan menggunakan alamat MAC (Media Access Control) untuk membangun tabel MAC dan meneruskan frame data ke port yang tepat.'},
+  {q:'HTTP dan HTTPS beroperasi di layer OSI mana?',opts:['Layer 3','Layer 4','Layer 5','Layer 7'],ans:3,exp:'HTTP dan HTTPS adalah protokol aplikasi yang beroperasi di Layer 7 (Application Layer) pada model OSI. Layer ini langsung berinteraksi dengan pengguna dan aplikasi.'},
+  {q:'Apa keunggulan Switch Layer 3 dibanding Switch Layer 2?',opts:['Lebih murah','Dapat melakukan routing antar VLAN tanpa router eksternal','Lebih mudah dikonfigurasi','Menggunakan lebih sedikit daya'],ans:1,exp:'Switch Layer 3 dapat melakukan routing berdasarkan IP Address selain switching berdasarkan MAC. Keunggulan utamanya adalah mampu melakukan inter-VLAN routing tanpa memerlukan router eksternal, sehingga lebih efisien untuk jaringan enterprise.'},
+];
+
+// ============================================================
+// RENDER
+// ============================================================
+function R() {
+  const el = document.getElementById('root');
+  if (mode === 'menu') el.innerHTML = menuHTML();
+  else if (mode === 'theory') el.innerHTML = theoryHTML();
+  else if (mode === 'quiz') el.innerHTML = quizHTML();
+  else if (mode === 'result') el.innerHTML = resultHTML();
+  else if (mode === 'review') el.innerHTML = reviewHTML();
+  window.scrollTo(0, 0);
+}
+
+function menuHTML() {
+  return `
+<div class="card animate-in" style="background:linear-gradient(135deg,#0A1628,#0F2040);border-color:#1E3A60;padding:48px 40px">
+  <div style="margin-bottom:16px"><span class="badge bb">Teknik Informatika UMRAH</span></div>
+  <h1 style="font-size:32px;line-height:1.2;margin-bottom:12px">Jaringan<br><span style="color:var(--primary)">Komputer</span></h1>
+  <p style="font-size:15px;color:var(--muted);margin-bottom:32px">IP Address · Subnetting · Topologi · Protokol · Model OSI/TCP-IP</p>
+  <div class="grid3" style="margin:0">
+    <div class="mini-card"><div class="icon">📚</div><div class="label">Materi</div><div class="val">${TOPICS.length} Topik</div></div>
+    <div class="mini-card"><div class="icon">❓</div><div class="label">Soal Kuis</div><div class="val">${QS.length} Soal</div></div>
+    <div class="mini-card"><div class="icon">🎯</div><div class="label">Lulus Minimal</div><div class="val">75%</div></div>
+  </div>
+</div>
+
+<div class="card animate-in" style="animation-delay:.08s">
+  <h2 style="margin-top:0">📚 Pilih Materi</h2>
+  ${TOPICS.map((t,i)=>`
+  <button class="topic-btn" onclick="topicIdx=${i};mode='theory';R()">
+    <span class="topic-num">${t.icon}</span>
+    <div>
+      <span class="badge ${t.badge}" style="margin-bottom:8px;display:inline-block">${t.badgeText}</span>
+      <div style="font-size:16px;font-weight:800;margin-bottom:3px">${t.title}</div>
+      <div style="font-size:13.5px;color:var(--muted);font-weight:400">${t.sub}</div>
+    </div>
+  </button>`).join('')}
+</div>
+
+<div class="card animate-in" style="animation-delay:.14s">
+  <h2 style="margin-top:0">🎯 Latihan Soal</h2>
+  <p style="color:var(--muted);font-size:14.5px">Uji pemahaman kamu dengan <strong style="color:var(--text)">${QS.length} soal pilihan ganda</strong> mencakup semua materi. Dilengkapi pembahasan lengkap setiap soal.</p>
+  <button class="btn btn-p" style="width:100%;padding:22px;font-size:16px;margin-top:8px" onclick="startQ()">🚀 Mulai Kuis Sekarang</button>
+</div>`;
+}
+
+function theoryHTML() {
+  const t = TOPICS[topicIdx];
+  return `
+<div style="position:sticky;top:0;background:var(--bg);padding:14px 0 18px;z-index:10;border-bottom:1px solid var(--border);margin-bottom:24px">
+  <div class="row">
+    <button class="btn" onclick="mode='menu';R()" style="padding:12px 18px;font-size:14px">← Menu</button>
+    <span class="badge ${t.badge}">${t.badgeText}</span>
+    <div class="spacer"></div>
+    <button class="btn btn-p" onclick="startQ()" style="padding:12px 18px;font-size:13px">Kuis →</button>
+  </div>
+</div>
+<div class="card animate-in">
+  <div style="margin-bottom:8px"><span style="font-size:32px">${t.icon}</span></div>
+  <h1 style="font-size:26px;margin-bottom:6px">${t.title}</h1>
+  <p style="color:var(--muted);margin-bottom:0">${t.sub}</p>
+</div>
+<div class="card animate-in" style="animation-delay:.06s">
+  ${t.body()}
+</div>
+<div class="row" style="margin-top:8px;gap:12px">
+  ${topicIdx>0?`<button class="btn" onclick="topicIdx--;R()" style="flex:1;padding:20px">← Materi Sebelumnya</button>`:''}
+  ${topicIdx<TOPICS.length-1?`<button class="btn btn-p" onclick="topicIdx++;R()" style="flex:1;padding:20px">Materi Berikutnya →</button>`:`<button class="btn btn-s" onclick="startQ()" style="flex:1;padding:20px">🎯 Mulai Kuis!</button>`}
+</div>`;
+}
+
+function quizHTML() {
+  const q = QS[qIdx];
+  const pct = Math.round(((qIdx) / QS.length) * 100);
+  return `
+<div style="position:sticky;top:0;background:var(--bg);padding:14px 0 18px;z-index:10;border-bottom:1px solid var(--border)">
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn" onclick="mode='menu';R()" style="padding:10px 16px;font-size:13px">← Menu</button>
+    <div class="spacer"></div>
+    <span style="font-family:var(--mono);font-size:13px;color:var(--muted)">Soal ${qIdx+1}/${QS.length}</span>
+    <span style="font-family:var(--mono);font-size:13px;color:var(--success);font-weight:700">✓ ${score}</span>
+  </div>
+  <div class="progress-bar" style="margin:0"><div class="progress-fill" style="width:${pct}%"></div></div>
+</div>
+<div class="card animate-in" style="margin-top:20px">
+  <div style="margin-bottom:10px"><span class="badge bp" style="font-size:11px">Soal #${qIdx+1}</span></div>
+  <div style="font-size:18px;font-weight:700;line-height:1.65;margin-bottom:26px;color:var(--text)">${q.q}</div>
+  <div>
+    ${q.opts.map((o,i)=>`
+    <button class="opt${ans?(i===q.ans?' ok':i===sel&&sel!==q.ans?' no':''):''}" onclick="doAns(${i})" ${ans?'disabled':''}>
+      <span style="font-family:var(--mono);font-size:13px;opacity:0.55;margin-right:10px">${String.fromCharCode(65+i)}.</span>${o}
+    </button>`).join('')}
+  </div>
+  ${ans?`<div class="explain animate-in"><strong style="color:var(--purple);font-size:15px;display:block;margin-bottom:10px">${sel===q.ans?'✅ Jawaban Benar! 🎉':'❌ Jawaban Salah'}</strong>${q.exp}</div>`:``}
+</div>
+<div class="row" style="margin-top:10px;gap:10px">
+  <button class="btn" onclick="goPrev()" ${qIdx===0?'disabled':''} style="padding:16px 20px;font-size:14px">← Kembali</button>
+  ${ans
+    ?(qIdx<QS.length-1
+      ?`<button class="btn btn-p" onclick="goNext()" style="flex:1;padding:18px;font-size:15px">Soal Berikutnya →</button>`
+      :`<button class="btn btn-s" onclick="mode='result';R()" style="flex:1;padding:18px;font-size:15px">Lihat Hasil 🏆</button>`)
+    :`<button class="btn" disabled style="flex:1;padding:18px;font-size:14px;opacity:.3">Pilih jawaban di atas</button>`}
+</div>`;
+}
+
+function resultHTML() {
+  const pct = Math.round((score/QS.length)*100);
+  const isPass = pct >= 75;
+  const grade = pct>=90?'A+ — Luar Biasa! Kamu menguasai materi jaringan komputer dengan sangat baik 🏆':
+    pct>=75?'B — Lulus! Pemahaman kamu sudah baik, terus tingkatkan 👍':
+    pct>=50?'C — Cukup. Pelajari ulang materi yang masih lemah ⚠️':
+    'D — Perlu belajar lebih banyak. Baca ulang semua materi dari awal 📚';
+  return `
+<div class="card animate-in" style="text-align:center;padding:56px 40px">
+  <div style="font-size:64px;margin-bottom:20px">${isPass?'🎓':'📚'}</div>
+  <div style="font-size:90px;font-weight:900;font-family:var(--head);line-height:1;margin-bottom:14px;color:${isPass?'var(--primary)':'var(--danger)'};text-shadow:0 0 40px ${isPass?'rgba(0,194,255,0.3)':'rgba(255,64,96,0.3)'}">${score}<span style="font-size:40px;color:var(--border2)">/${QS.length}</span></div>
+  <div style="font-size:20px;font-weight:800;font-family:var(--head);margin-bottom:18px;color:var(--text);line-height:1.4">${grade}</div>
+  <div style="padding:12px 28px;background:${isPass?'var(--primary-bg)':'var(--danger-bg)'};display:inline-block;border-radius:40px;font-size:16px;font-weight:700;color:${isPass?'var(--primary)':'var(--danger)'};margin-bottom:36px">Akurasi: ${pct}%</div>
+</div>
+<div class="grid2" style="margin-bottom:22px">
+  <div class="card" style="text-align:center;margin-bottom:0;background:var(--success-bg);border-color:rgba(0,229,160,0.2);padding:32px">
+    <div style="color:var(--success);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">Benar</div>
+    <div style="font-size:56px;font-weight:900;color:var(--success);font-family:var(--mono)">${score}</div>
+  </div>
+  <div class="card" style="text-align:center;margin-bottom:0;background:var(--danger-bg);border-color:rgba(255,64,96,0.2);padding:32px">
+    <div style="color:var(--danger);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">Salah</div>
+    <div style="font-size:56px;font-weight:900;color:var(--danger);font-family:var(--mono)">${QS.length-score}</div>
+  </div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+  <button class="btn btn-p" style="padding:22px;font-size:16px;border-radius:14px" onclick="mode='review';R()">🔍 Lihat Pembahasan Semua Soal</button>
+  <div class="row">
+    <button class="btn" style="flex:1;padding:20px;font-size:15px" onclick="startQ()">🔄 Ulangi Kuis</button>
+    <button class="btn" style="flex:1;padding:20px;font-size:15px" onclick="mode='menu';R()">🏠 Menu Utama</button>
+  </div>
+</div>`;
+}
+
+function reviewHTML() {
+  return `
+<div class="row" style="margin-bottom:28px;position:sticky;top:0;background:var(--bg);padding:16px 0;z-index:10;border-bottom:2px solid var(--border)">
+  <button class="btn" onclick="mode='result';R()" style="padding:12px 18px;font-size:13px">← Kembali ke Hasil</button>
+  <strong style="font-size:16px;font-family:var(--head);margin-left:10px">Pembahasan ${QS.length} Soal</strong>
+</div>
+${QS.map((q,i)=>{
+  const u=ua[i], ok=u===q.ans, skip=u===undefined;
+  return `
+<div class="ri ${ok?'rok':skip?'rskip':'rno'}">
+  <div class="ri-content">
+    <div style="font-weight:700;font-size:16px;margin-bottom:20px;color:var(--text);line-height:1.7">
+      <span style="font-family:var(--mono);font-size:11px;background:var(--light);padding:5px 10px;border-radius:7px;border:1px solid var(--border2);margin-right:10px;color:var(--muted)">#${i+1}</span>${q.q}
+    </div>
+    <div style="font-size:15px;line-height:1.7;background:var(--bg);padding:18px;border-radius:10px;border:1px solid var(--border)">
+      ${ok
+        ?`<span style="color:var(--success);font-weight:800;display:block;margin-bottom:6px">✅ Jawaban Kamu Benar:</span><span style="color:var(--text);background:var(--success-bg);padding:5px 12px;border-radius:7px;display:inline-block">${q.opts[u]}</span>`
+        :skip
+          ?`<span style="color:var(--warning);font-weight:800;display:block;margin-bottom:6px">⚠️ Dilewati</span><span style="color:var(--success);font-weight:800;display:block;margin-top:12px;margin-bottom:6px">✅ Jawaban yang Benar:</span><span style="color:var(--text);background:var(--success-bg);padding:5px 12px;border-radius:7px;display:inline-block">${q.opts[q.ans]}</span>`
+          :`<span style="color:var(--danger);font-weight:800;display:block;margin-bottom:6px">❌ Jawaban Kamu Salah:</span><span style="color:var(--muted);text-decoration:line-through;background:var(--danger-bg);padding:5px 10px;border-radius:7px;display:inline-block">${q.opts[u]}</span><span style="color:var(--success);font-weight:800;display:block;margin-top:12px;margin-bottom:6px">✅ Jawaban yang Benar:</span><span style="color:var(--text);background:var(--success-bg);padding:5px 12px;border-radius:7px;display:inline-block">${q.opts[q.ans]}</span>`}
+    </div>
+  </div>
+  <div class="ri-content" style="background:var(--primary-bg);border-top:2px dashed var(--border2);font-size:14.5px;line-height:1.75;color:#9DD8F0;padding:20px 32px">
+    <strong style="color:var(--primary);display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:18px">💡</span> Pembahasan:</strong>${q.exp}
+  </div>
+</div>`;
+}).join('')}
+<button class="btn btn-p" onclick="mode='result';R()" style="width:100%;padding:22px;font-size:16px;border-radius:14px;margin-top:28px">← Kembali ke Hasil</button>`;
+}
+
+function startQ(){qIdx=0;sel=null;ans=false;score=0;ua=[];mode='quiz';R();}
+function doAns(i){
+  if(ans)return;
+  sel=i;ans=true;
+  if(i===QS[qIdx].ans)score++;
+  ua[qIdx]=i;
+  R();
+}
+function goNext(){
+  qIdx++;
+  sel=ua[qIdx]!==undefined?ua[qIdx]:null;
+  ans=ua[qIdx]!==undefined;
+  R();
+}
+function goPrev(){
+  if(qIdx>0){qIdx--;sel=ua[qIdx]!==undefined?ua[qIdx]:null;ans=ua[qIdx]!==undefined;R();}
+}
+R();
+</script>
+</body>
+</html>
